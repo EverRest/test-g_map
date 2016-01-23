@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+var map;
+function initialize(location) {
+	console.log(location);
+  var mapOptions = {
+    center: new google.maps.LatLng(location.coords.latitude, location.coords.longitude),
+    zoom: 12,
+    mapTypeId: google.maps.MapTypeId.HYBRID
+  };
+
+  var map = new google.maps.Map(document.getElementById("googleMap"),mapOptions);
+}
+
+$(document).ready(function() {
+	navigator.geolocation.getCurrentPosition(initialize);
+});
+
+</script>
+</head>
+
+<body>
+<div id="googleMap" style="width:500px;height:380px;"></div>
+</body>
+
+</html>
