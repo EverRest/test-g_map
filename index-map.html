@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8" />
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
@@ -60,10 +61,10 @@ function initialize(location) {
   	fillColor: "#0000FF",
   	fillOpacity: 0.35,
   	map: map,
-  	center: new google.maps.LatLng(location.coords.latitude, location.coords.longitude),
+  	center: currentLocations,
   	radius: 2000
   };
-  circle = new google.maps.Circle(circleOptions);
+  var circle = new google.maps.Circle(circleOptions);
 }
 
 $(document).ready(function() {
