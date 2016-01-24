@@ -3,18 +3,67 @@
 <head>
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
 <script>
+
 var map;
+var service;
+
+function handleSearchResults(results, status) {
+	console.log(results);
+
+	for (var i = 0; i < results.length ;i++) {
+		
+	var marker = new google.maps.Marker({
+		position: results[i].geometry.location,
+		map: map,
+		icon: results[i].icon
+		});
+	}
+}
+
+function performSearch() {
+	
+	var request = {
+		bounds: map.getBounds(),
+		name: "Mc'Donalds"
+	};
+
+
+	service.nearbySearch(request, handleSearchResults);
+}
+
 function initialize(location) {
-	console.log(location);
+  var currentLocation =  new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
+  
   var mapOptions = {
-    center: new google.maps.LatLng(location.coords.latitude, location.coords.longitude),
-    zoom: 12,
+    center: currentLocation,
+    zoom: 14,
     mapTypeId: google.maps.MapTypeId.HYBRID
   };
 
-  var map = new google.maps.Map(document.getElementById("googleMap"),mapOptions);
+  map = new google.maps.Map(document.getElementById("googleMap"),mapOptions);
+  
+  var marker = new google.maps.Marker({
+  	position: currentLocation,
+  	map: map
+  });
+
+  service = new google.maps.places.PlacesService(map);
+
+  google.maps.event.addListener(map, 'bounds_changed', performSearch);
+
+  var circleOptions = {
+  	strokeColor: "#d2d2d2",
+  	strokeOpacity: 0.6,
+  	strokeWeight: 1.5,
+  	fillColor: "#0000FF",
+  	fillOpacity: 0.35,
+  	map: map,
+  	center: new google.maps.LatLng(location.coords.latitude, location.coords.longitude),
+  	radius: 2000
+  };
+  circle = new google.maps.Circle(circleOptions);
 }
 
 $(document).ready(function() {
@@ -25,7 +74,7 @@ $(document).ready(function() {
 </head>
 
 <body>
-<div id="googleMap" style="width:500px;height:380px;"></div>
+<div id="googleMap" style="width:1024px;height:800px;"></div>
 </body>
 
 </html>
